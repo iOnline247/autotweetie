@@ -1,0 +1,28 @@
+{
+  "name": "autotweetie",
+  "version": "0.0.1",
+  "description": "http://twitter.com/autoTweetie",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iOnline247/autoTweetie.git"
+  },
+  "keywords": [
+    "autotweetie",
+    "twitbot"
+  ],
+  "author": "Matthew Bramer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iOnline247/autoTweetie/issues"
+  },
+  "homepage": "https://github.com/iOnline247/autoTweetie#readme",
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "request": "^2.60.0",
+    "twit": "^2.1.0"
+  }
+}
