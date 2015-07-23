@@ -2,9 +2,8 @@
 //  RTD2 - Twitter bot that tweets about the most popular github.com news
 //  Also makes new friends and prunes its followings.
 //
-var Bot = require('./bot')
-  , config1 = require('../config1');
-
+var Bot = require('./utils/bot');
+var config1 = require('./config/auth');
 var bot = new Bot(config1);
 
 console.log('RTD2: Running.');
@@ -15,12 +14,16 @@ function datestring () {
   return d.getUTCFullYear()   + '-'
      +  (d.getUTCMonth() + 1) + '-'
      +   d.getDate();
-};
+}
+
+function log( msg ) {
+  console.log('\n' + new Date() + ' ::: ' + msg );
+}
 
 setInterval(function() {
   bot.twit.get('followers/ids', function(err, reply) {
     if(err) return handleError(err, 'followers/ids');
-    console.log('\n' + new Date() + ' :: # followers: ' + reply.ids.length);
+    log('# followers: ' + reply.ids.length);
   });
 
   // Generate random number for frequency bot action check.
@@ -48,7 +51,7 @@ setInterval(function() {
         var popularity = tweet.retweet_count;
 
         if(tweetLength > 110) {
-          console.log('\n' + new Date() + ' :: Tweet is too long to RT: ' + tweetLength);
+          log('Tweet is too long to RT: ' + tweetLength);
           continue;
         }
 
@@ -61,15 +64,16 @@ setInterval(function() {
       bot.tweet(popular, function (err, reply) {
         if(err) return handleError(err);
 
-        console.log('\n' + new Date() + ' :: Tweet: ' + (reply ? reply.text : reply));
-      })
+        log('Tweet: ' + (reply ? reply.text : reply));
+      });
     });
   } else if(rand <= 0.36) { // make a friend.
     bot.mingle(function(err, reply) {
-      if(err) return handleError(err, 'mingle');
-
-      var name = reply.screen_name;
-      console.log('\n' + new Date() + ' :: Mingle: followed @' + name);
+      if(err) {
+        handleError(err, 'mingle');
+      } else {
+        log('Mingle: followed @' + reply.screen_name);
+      }
     });
   } else {                  //  prune a friend
     var params = {
@@ -83,15 +87,14 @@ setInterval(function() {
       var hasUsers = result.users && result.users.length;
 
       if(!hasUsers) {
-        console.log('\n' + new Date() + ' :: No users pruned.');
+        log('No users pruned.');
         return;
       }
 
       bot.prune(function(err, reply) {
         if(err) return handleError(err, 'prune');
 
-        var name = reply.screen_name
-        console.log('\n' + new Date() + ' :: Prune: unfollowed @'+ name);
+        log('Prune: unfollowed @'+ reply.screen_name);
       });
     });
   }

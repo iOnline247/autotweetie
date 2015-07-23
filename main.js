@@ -1,7 +1,7 @@
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var url = 'http://mattbramer.blogspot.com/';
+var blogs = require('./utils/blogs');
 var requestFrequencyMs = 2000;
 
 function init() {
@@ -18,4 +18,4 @@ function init() {
 
 init();
 
-console.log('AutoTweetie initialized...');
+console.log('AutoTweetie initialized...');

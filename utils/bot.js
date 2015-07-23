@@ -2,9 +2,8 @@
 //  Bot
 //  class for performing various twitter actions
 //
-var Twit = require('../lib/twitter');
-
-var Bot = module.exports = function(config) { 
+var Twit = require('../node_modules/twit/lib/twitter');
+var Bot = function(config) { 
   this.twit = new Twit(config);
 };
 
@@ -76,3 +75,5 @@ function randIndex (arr) {
   var index = Math.floor(arr.length*Math.random());
   return arr[index];
 };
+
+module.exports = Bot;
